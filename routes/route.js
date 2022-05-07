@@ -44,7 +44,7 @@ route.post("/signin", async(req, res) => {
 
 
 })
-route.post('/login', (req, res) => {
+route.post('/login', async(req, res) => {
     const { email, password } = req.body;
     if (!email && !password) {
         res.status(401).json({ message: "plz enter  credentials" });
