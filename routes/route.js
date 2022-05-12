@@ -1,9 +1,6 @@
 const express = require('express');
 const route = express.Router()
-const con = require('../connection/conn');
-const hashing = require('../middleware/passwordHashing');
 const validator = require('validator');
-const phone = require('phone');
 const brypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../connection/conn');
@@ -11,7 +8,7 @@ const jwtkey = process.env.Keyw
 route.post("/signin", async(req, res) => {
     const { name, phnum, email, password, confirmpassword } = req.body;
 
-    if (!name && !phnum && !email && !password && !confirmpassword) {
+    if (!name || !phnum || !email || !password || !confirmpassword) {
         res.status(401).json({ message: "plz fill complete form" })
     }
     if (!validator.isEmail(email)) {
@@ -46,7 +43,7 @@ route.post("/signin", async(req, res) => {
 })
 route.post('/login', async(req, res) => {
     const { email, password } = req.body;
-    if (!email && !password) {
+    if (!email || !password) {
         res.status(401).json({ message: "plz enter  credentials" });
     }
     const loginquery = "SELECT * FROM `cutommer` WHERE email =?";
